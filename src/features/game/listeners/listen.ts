@@ -1,12 +1,12 @@
-import { EventBus } from '../../utils/structure/event-bus';
+import { EventBus } from '../../../utils/structure/event-bus';
 import {
   LETTERS_ERROR,
   LETTERS_REJECT_DATA,
   LETTERS_SUCCESS_DATA,
   LETTERS_TICK,
-} from '../letters/actions';
-import { LetterState, WordState } from '../../state/index';
-import { AnswerContainer, DOMApi, LettersContainer } from '../../const';
+} from '../../letters/actions';
+import { LetterState, WordState } from '../../../state/index';
+import { AnswerContainer, DOMApi, LettersContainer } from '../../../const';
 
 export const onTickHandler = ({
   value,
@@ -19,21 +19,27 @@ export const onTickHandler = ({
   element: HTMLElement;
   elementClass: string;
 }) => {
+  const { originalWord } = WordState.state;
+  const { currentLetterIndex } = LetterState.state;
   if (element) {
     EventBus.publish(LETTERS_TICK, {
       container,
       element,
-      isSuccess:
-        value ===
-        WordState.state.originalWord[LetterState.state.currentLetterIndex],
+      isSuccess: value === originalWord[currentLetterIndex],
       onSuccess: () => EventBus.publish(LETTERS_SUCCESS_DATA, {}),
       onError: () => EventBus.publish(LETTERS_REJECT_DATA, {}),
     });
   } else {
-    EventBus.publish(LETTERS_ERROR, {
-      elements: DOMApi.getAll(elementClass),
-      onError: () => EventBus.publish(LETTERS_REJECT_DATA, {}),
-    });
+    const elements = LettersContainer.querySelectorAll(elementClass);
+    const isError = elements.length;
+    if (isError) {
+      EventBus.publish(LETTERS_ERROR, {
+        elements,
+        onError: () => {
+          EventBus.publish(LETTERS_REJECT_DATA, {});
+        },
+      });
+    }
   }
 };
 

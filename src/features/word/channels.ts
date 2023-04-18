@@ -4,10 +4,10 @@ import { LETTER_SAVE_DATA, WORD_SAVE_DATA } from '../state/actions';
 import { words, WordState } from '../../state/index';
 import { randomizeArray } from '../../utils/randomize-array';
 import { splitWord } from '../../utils/split-word';
-import { createLetters } from './ui';
+import { Letter } from './ui';
 import { startGame } from '../game/start';
-import { DOMApi, QuizContainer } from '../../const';
-import { GAME_END } from '../game/actions'
+import { GAME_END } from '../game/actions';
+import { DOMApi } from '../../const';
 
 export const subscribeWordSuccess = () =>
   EventBus.subscribe(WORD_SUCCESS, () => {
@@ -38,15 +38,16 @@ export const subscribeWordError = () =>
   EventBus.subscribe(
     WORD_ERROR,
     ({ containers }: { containers: HTMLElement[] }) => {
+      const { originalWord } = WordState.state;
       containers.forEach((container) => container.replaceChildren());
-      WordState.state.originalWord.forEach((el: string) =>
-        createLetters({
+      originalWord.forEach((el: string) => {
+        const LetterElement = Letter({
           letter: el,
           id: el,
-          Container: containers[0],
           color: 'bg-danger',
-        })
-      );
+        });
+        DOMApi.append(containers[0], LetterElement);
+      });
     }
   );
 

@@ -2,18 +2,12 @@ import { DOMApi } from '../../const';
 
 type TCreateLetters = {
   letter: HTMLElement | string;
-  Container: HTMLElement;
   color: string;
   id: string;
 };
 
-export const createLetters = ({
-  id,
-  Container,
-  color,
-  letter,
-}: TCreateLetters) => {
-  const LetterElement = DOMApi.create(
+export const Letter = ({ id, color, letter }: TCreateLetters) => {
+  return DOMApi.create(
     'div',
     {
       id,
@@ -21,5 +15,4 @@ export const createLetters = ({
     },
     [letter as HTMLElement]
   );
-  DOMApi.append(Container, LetterElement);
 };

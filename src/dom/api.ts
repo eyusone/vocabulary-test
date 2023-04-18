@@ -1,7 +1,7 @@
 const createElement = (
   tag: keyof HTMLElementTagNameMap,
   props: unknown,
-  children: HTMLElement[]
+  children?: HTMLElement[]
 ): HTMLElement => {
   const element = document.createElement(tag);
 

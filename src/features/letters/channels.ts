@@ -47,24 +47,41 @@ export const subscribeLettersError = () =>
 
 export const subscribeDataSuccess = () =>
   EventBus.subscribe(LETTERS_SUCCESS_DATA, () => {
-    const isWordDone =
-      LetterState.state.currentLetterIndex + 1 === LetterState.state.maxLetter;
+    const { currentLetterIndex, maxLetter } = LetterState.state;
+    const currentIdx = currentLetterIndex + 1;
 
     EventBus.publish(LETTER_SAVE_DATA, {
-      currentLetterIndex: LetterState.state.currentLetterIndex + 1,
+      currentLetterIndex: currentIdx,
     });
 
-    if (isWordDone) {
+    if (currentIdx === maxLetter) {
       EventBus.publish(WORD_SUCCESS, {});
     }
   });
 
 export const subscribeDataReject = () =>
   EventBus.subscribe(LETTERS_REJECT_DATA, () => {
+    const {
+      errors: {
+        words: { current: currentWord, mistake, right },
+        letters: { current: currentLetter, max },
+      },
+      originalWord,
+    } = WordState.state;
+    const word = originalWord.join('');
+    const nextLetters = currentLetter + 1;
+    const isNextGreater = nextLetters >= max;
     EventBus.publish(WORD_SAVE_DATA, {
       errors: {
-        words: WordState.state.errors.words + 1,
-        letters: WordState.state.errors.letters + 1,
+        words: {
+          current: currentWord + 1,
+          mistake: isNextGreater ? word : mistake,
+          right: right.filter((el) => el !== word),
+        },
+        letters: {
+          current: nextLetters,
+          max: isNextGreater ? nextLetters : max,
+        },
       },
     });
   });

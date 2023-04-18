@@ -17,6 +17,7 @@ export const subscribeLetter = () =>
 export const subscribeWords = () =>
   EventBus.subscribe(WORD_SAVE_DATA, ({ ...data }) => {
     handleState<TWordState>({ State: WordState, newState: { ...data } });
+    console.log(data);
     if (data?.errors?.letters === 3) {
       EventBus.publish(WORD_ERROR, {
         containers: [AnswerContainer, LettersContainer],
