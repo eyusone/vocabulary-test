@@ -8,7 +8,7 @@ import { gameChannels } from './features/game/channels';
 
 import { startGame } from './features/game/start';
 import { MaxStepContainer } from './const';
-import { handleKeyDown } from './features/game/listeners/listen';
+import { handleKeyDown } from './features/game/handlers/on-key-down-handler';
 
 MaxStepContainer.innerText = `${words.length}`;
 

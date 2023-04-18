@@ -18,34 +18,33 @@ const createElement = (
   return element;
 };
 
-const appendChild = (element: Document) => (parent: Element, child: Node) => {
-  const appendChildWithAPI = appendChild(element);
+const appendChild = (parent: HTMLElement, child: Node) => {
   if (Array.isArray(child))
-    child.forEach((nestedChild) => appendChildWithAPI(parent, nestedChild));
+    child.forEach((nestedChild) => appendChild(parent, nestedChild));
   else {
     parent.appendChild(
       child.nodeType
         ? child
-        : typeof child === 'string' && element.createTextNode(child)
+        : typeof child === 'string' && document.createTextNode(child)
     );
   }
 };
 
 const getElement =
-  (element: Document) =>
+  (element: HTMLElement | Document) =>
   (selector: string): HTMLElement => {
     return element.querySelector(selector);
   };
 
 const getElementAll =
-  (element: Document) =>
+  (element: HTMLElement | Document) =>
   (selector: string): NodeListOf<HTMLElement> => {
     return element.querySelectorAll(selector);
   };
 
-export const createAPI = (element: Document) => ({
+export const createAPI = (element: HTMLElement | Document) => ({
   create: createElement,
-  append: appendChild(element),
-  get: getElement(element),
-  getAll: getElementAll(element),
+  append: appendChild,
+  get: getElement(element as HTMLElement),
+  getAll: getElementAll(element as HTMLElement),
 });
