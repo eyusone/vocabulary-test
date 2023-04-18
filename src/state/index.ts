@@ -3,7 +3,7 @@ import { WORDS_MOCK } from '../const';
 import { State } from '../utils/structure/state';
 import { splitWord } from '../utils/split-word';
 
-const WORDS_COUNT = 2;
+const WORDS_COUNT = 5;
 export const words = randomizeArray(WORDS_MOCK).slice(0, WORDS_COUNT);
 
 export type TWordState = {
