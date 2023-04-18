@@ -5,7 +5,7 @@ import { getRandomNumber } from '../../utils/get-random-number';
 export const createWordElements = (Container: HTMLElement) => {
   if (words.length === WordState.state.currentWordIndex) return;
 
-  return WordState.state.randomizedWord.map((letter: string) => {
+  WordState.state.randomizedWord.forEach((letter: string) => {
     const id = `letter-${letter}-${getRandomNumber({ boundary: 100 })}`;
     createLetters({
       letter,
@@ -13,9 +13,5 @@ export const createWordElements = (Container: HTMLElement) => {
       Container,
       color: 'bg-primary',
     });
-    return {
-      id,
-      letter,
-    };
   });
 };

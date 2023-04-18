@@ -3,7 +3,7 @@ import { WORDS_MOCK } from '../const';
 import { State } from '../utils/structure/state';
 import { splitWord } from '../utils/split-word';
 
-export const words = randomizeArray(WORDS_MOCK).slice(0, 2);
+export const words = randomizeArray(WORDS_MOCK).slice(0, 1);
 
 export type TWordState = {
   currentWordIndex: number;
@@ -13,7 +13,6 @@ export type TWordState = {
     words: number;
     letters: number;
   };
-  elements: { id: string; letter: string }[];
 };
 
 export type TLetterState = {
@@ -29,7 +28,6 @@ export const WordState = new State<TWordState>({
     words: 0,
     letters: 0,
   },
-  elements: [],
 });
 
 export const LetterState = new State<TLetterState>({

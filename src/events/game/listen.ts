@@ -41,7 +41,6 @@ export const listen = ({
   elementClass,
   container,
 }: {
-  elementId: string;
   elementClass: string;
   container: HTMLElement;
 }) => {
@@ -59,11 +58,17 @@ export const listen = ({
   );
 };
 
-export const handleKeyDown = ({ elementClass }: { elementClass: string }) => {
+export const handleKeyDown = ({
+  elementClass,
+  elementId,
+}: {
+  elementClass: string;
+  elementId: string;
+}) => {
   document.addEventListener('keydown', (e) => {
     const key = e.key.toLowerCase();
     const element = LettersContainer.querySelectorAll(
-      `[id*=letter-${key}]`
+      `[id*=${elementId}-${key}]`
     )[0] as HTMLElement;
 
     if (key.match(/^[a-zA-Zа-яА-Я]$/) && key.length === 1) {

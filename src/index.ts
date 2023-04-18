@@ -19,7 +19,7 @@ const allChannels = [
   ...gameChannels,
 ];
 
-handleKeyDown({ elementId: '#letter', elementClass: '.letter' });
+handleKeyDown({ elementId: 'letter', elementClass: '.letter' });
 
 allChannels.forEach((channel) => channel());
 startGame();

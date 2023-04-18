@@ -6,12 +6,15 @@ import { randomizeArray } from '../../utils/randomize-array';
 import { splitWord } from '../../utils/split-word';
 import { createLetters } from './ui';
 import { startGame } from '../game/start';
+import { DOMApi, QuizContainer } from '../../const';
+import { GAME_END } from '../game/actions'
 
 export const subscribeWordSuccess = () =>
   EventBus.subscribe(WORD_SUCCESS, () => {
     const currentWordIndex = WordState.state.currentWordIndex + 1;
 
     if (currentWordIndex >= words.length) {
+      EventBus.publish(GAME_END, {});
       return;
     }
     const randomizedWord = randomizeArray(splitWord(words[currentWordIndex]));

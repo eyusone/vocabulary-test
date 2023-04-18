@@ -1,9 +1,9 @@
 import { EventBus } from '../../utils/structure/event-bus';
-import { GAME_CLEAR, GAME_DATA_SUCCESS, GAME_START } from './actions';
+import { GAME_CLEAR, GAME_DATA_SUCCESS, GAME_END, GAME_START } from './actions';
 import { WORD_SAVE_DATA } from '../state/actions';
 import { WordState } from '../../state/index';
 import { listen } from './listen';
-import { AnswerContainer } from '../../const';
+import { AnswerContainer, DOMApi, QuizContainer } from '../../const';
 import { createWordElements } from './create-elements';
 
 export const subscribeGameDataSuccess = () =>
@@ -30,12 +30,8 @@ export const subscribeGameStart = () =>
     }) => {
       StepContainer.innerText = `${WordState.state.currentWordIndex + 1}`;
       onStart();
-      const elements = createWordElements(LetterContainer);
-      EventBus.publish(WORD_SAVE_DATA, () => ({
-        elements,
-      }));
+      createWordElements(LetterContainer);
       listen({
-        elementId: '#letter',
         elementClass: '.letter',
         container: AnswerContainer,
       });
@@ -52,8 +48,15 @@ export const subscribeGameClear = () =>
     }
   );
 
+export const subscribeGameEnd = () =>
+  EventBus.subscribe(GAME_END, () => {
+    const element = DOMApi.create('p', {}, ['🤗' as HTMLElement]);
+    DOMApi.append(QuizContainer, element);
+  });
+
 export const gameChannels = [
   subscribeGameStart,
   subscribeGameClear,
+  subscribeGameEnd,
   subscribeGameDataSuccess,
 ];
