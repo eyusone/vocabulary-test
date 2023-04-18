@@ -8,7 +8,8 @@ export const successTickUI = ({
   element: HTMLElement;
 }) => {
   element.classList.replace('bg-primary', 'bg-success');
-  DOMApi.append(container, element);
+  element.remove();
+  DOMApi.append(container, element.cloneNode(true));
 };
 
 export const rejectTickUI = ({ element }: { element: HTMLElement }) => {

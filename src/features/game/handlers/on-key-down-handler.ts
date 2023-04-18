@@ -10,14 +10,15 @@ export const handleKeyDown = ({
 }) => {
   document.addEventListener('keydown', (e) => {
     const key = e.key.toLowerCase();
-    const element = LettersContainer.querySelectorAll(
-      `[id*=${elementId}-${key}]`
-    )[0] as HTMLElement;
 
     if (key.match(/^[a-zA-Zа-яА-Я]$/) && key.length === 1) {
+      const elements = LettersContainer.querySelectorAll(
+        `[id*=${elementId}-${key}]`
+      );
+
       onTickHandler({
         value: key,
-        element,
+        element: (elements.length && elements[0]) as HTMLElement,
         elementClass,
         container: AnswerContainer,
       });
