@@ -7,7 +7,7 @@ const Info = (content: string) =>
     {
       class: 'd-flex gap-3 align-items-center',
     },
-    [content as HTMLElement]
+    [content as unknown as HTMLElement]
   );
 
 export const Result = () => {
