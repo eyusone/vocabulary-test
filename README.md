@@ -5,7 +5,7 @@
 
 Билд: `npm run build`
 
-Локальный хост: http://localhost:3002
+Хост: http://localhost:3002
 
 ## Алгоритм
 1. Выполнение в лоб
